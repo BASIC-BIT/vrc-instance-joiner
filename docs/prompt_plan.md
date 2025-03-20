@@ -5,7 +5,7 @@ This document breaks down the implementation steps for the VRChat Instance Joine
 ## Phase 1: Project Setup and Foundation
 
 ### Step 1: Project Initialization
-- Create a new WPF application using .NET 7/8
+- Create a new WPF application using .NET 8
 - Set up the project structure with appropriate folders (Models, ViewModels, Views, Services)
 - Add necessary NuGet packages:
   - MaterialDesignThemes

@@ -5,7 +5,8 @@ This checklist tracks the progress of implementing the VRChat Instance Joiner ap
 ## Phase 1: Project Setup and Foundation
 
 ### Step 1: Project Initialization
-- [x] Create new WPF application (.NET 7/8)
+- [x] Create new WPF application (.NET 8)
+- [x] Upgrade from .NET 7 to .NET 8 (see dotnet_upgrade_plan.md)
 - [x] Set up project folder structure
   - [x] Models
   - [x] ViewModels

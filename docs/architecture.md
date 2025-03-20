@@ -22,7 +22,7 @@ To develop a Windows-native C# application that connects to the VRChat API, moni
 ## 2. Technology Stack
 
 ### 2.1 Core Technologies
-- **Programming Language**: C# (.NET 7/8)
+- **Programming Language**: C# (.NET 8)
 - **UI Framework**: WPF with MaterialDesignInXAML (modern, attractive UI with minimal effort)
 - **API Communication**: VRChat API C# SDK (https://github.com/vrchatapi/vrchatapi-csharp)
 - **Packaging**: Self-contained deployable executable for Windows

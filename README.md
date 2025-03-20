@@ -20,7 +20,7 @@ VRChat Instance Joiner is a desktop application designed to monitor VRChat group
 ### Requirements
 
 - Windows 10 or later
-- .NET 7.0 or later
+- .NET 8.0 or later
 - An active VRChat account
 
 ### Setup
