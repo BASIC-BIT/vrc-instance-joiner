@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -69,7 +70,8 @@ namespace VRChatInstanceJoiner.ViewModels
             {
                 if (SetProperty(ref _selectedGroup, value) && value != null)
                 {
-                    _ = SaveSelectedGroupAsync(value.Id);
+                    // Don't auto-save when property is set directly
+                    // This will be handled by the SelectGroupAsync method
                 }
             }
         }
@@ -127,7 +129,7 @@ namespace VRChatInstanceJoiner.ViewModels
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
             RefreshGroupsCommand = new RelayCommand(async _ => await LoadGroupsAsync());
-            SelectGroupCommand = new RelayCommand(param => SelectGroupAsync(param as VRChatGroup));
+            SelectGroupCommand = new RelayCommand(async param => await SelectGroupAsync(param as VRChatGroup));
 
             // Initialize properties
             _searchText = string.Empty;
@@ -157,8 +159,8 @@ namespace VRChatInstanceJoiner.ViewModels
 
                 // Clear existing groups
                 Groups.Clear();
-                HasGroups = false;
                 FilteredGroups.Clear();
+                HasGroups = false;
 
                 // Check if authenticated
                 if (!_vrchatApiService.IsAuthenticated)
@@ -177,11 +179,11 @@ namespace VRChatInstanceJoiner.ViewModels
                     Groups.Add(group);
                 }
 
-                // Update HasGroups property
-                HasGroups = Groups.Count > 0;
-
                 // Apply filtering
                 FilterGroups();
+
+                // Update HasGroups property
+                HasGroups = Groups.Count > 0;
 
                 StatusMessage = $"Loaded {groups.Count} groups";
             }
@@ -215,20 +217,23 @@ namespace VRChatInstanceJoiner.ViewModels
             else
             {
                 // Filter groups by name or description
-                var searchText = SearchText.ToLowerInvariant();
-                var filteredGroups = Groups.Where(g =>
-                    g.Name.ToLowerInvariant().Contains(searchText) ||
-                    g.Description.ToLowerInvariant().Contains(searchText) ||
-                    (g.Tags != null && g.Tags.Any(t => t.ToLowerInvariant().Contains(searchText)))
-                );
+                var searchText = SearchText?.ToLowerInvariant() ?? "";
+                var filteredGroups = new List<VRChatGroup>();
+
+                foreach (var group in Groups)
+                {
+                    if (group.Name.ToLowerInvariant().Contains(searchText) ||
+                        (group.Description ?? "").ToLowerInvariant().Contains(searchText) ||
+                        (group.Tags != null && group.Tags.Any(t => (t ?? "").ToLowerInvariant().Contains(searchText))))
+                    {
+                        filteredGroups.Add(group);
+                    }
+                }
 
                 foreach (var group in filteredGroups)
                 {
                     FilteredGroups.Add(group);
                 }
-            
-            // Update HasGroups property
-            HasGroups = FilteredGroups.Count > 0;
             }
 
             // Update status message

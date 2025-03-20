@@ -1,6 +1,7 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 using Microsoft.Extensions.Logging;
 using VRChatInstanceJoiner.Models;
@@ -11,7 +12,7 @@ using VRChatInstanceJoiner.Views;
 namespace VRChatInstanceJoiner
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Main window for the VRChat Instance Joiner application.
     /// </summary>
     public partial class MainWindow : Window
     {
@@ -43,8 +44,8 @@ namespace VRChatInstanceJoiner
                 
                 LogToFile("Services initialized");
                 
-                // Initialize component from XAML
-                InitializeComponent();
+                // Create UI programmatically
+                CreateUI();
                 
                 // Set DataContext for binding
                 DataContext = this;
@@ -63,6 +64,39 @@ namespace VRChatInstanceJoiner
             }
         }
 
+        private void CreateUI()
+        {
+            // Set window properties
+            Title = "VRChat Instance Joiner";
+            Width = 900;
+            Height = 600;
+            
+            // Set Material Design styles
+            System.Windows.Documents.TextElement.SetForeground(this, (Brush)Application.Current.Resources["MaterialDesignBody"]);
+            System.Windows.Documents.TextElement.SetFontWeight(this, FontWeights.Regular);
+            System.Windows.Documents.TextElement.SetFontSize(this, 13);
+            // Skip TextOptions settings as they're not critical
+            // and are causing reference issues
+            Background = (Brush)Application.Current.Resources["MaterialDesignPaper"];
+            FontFamily = (FontFamily)Application.Current.Resources["MaterialDesignFont"];
+            
+            // Create a DockPanel as the main container
+            var dockPanel = new DockPanel();
+            Content = dockPanel;
+            
+            // Create a GroupSelectionView
+            var groupSelectionView = new GroupSelectionView
+            {
+                Name = "groupSelectionView",
+                Margin = new Thickness(16)
+            };
+            
+            // Add the GroupSelectionView to the DockPanel
+            dockPanel.Children.Add(groupSelectionView);
+            
+            LogToFile("UI components created programmatically");
+        }
+
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             try
@@ -70,14 +104,13 @@ namespace VRChatInstanceJoiner
                 LogToFile("MainWindow_Loaded event fired");
                 
                 // Create a logger for the GroupViewModel
-                // Create a simple logger for the GroupViewModel
                 var logger = new Microsoft.Extensions.Logging.LoggerFactory().CreateLogger<GroupViewModel>();
                 
                 // Initialize the GroupViewModel
                 _groupViewModel = new GroupViewModel(_vrchatApiService, _dataStorageService, logger);
                 
-                // Find the GroupSelectionView in the visual tree
-                var groupSelectionView = FindVisualChild<GroupSelectionView>(this);
+                // Find the GroupSelectionView in the content
+                var groupSelectionView = FindName("groupSelectionView") as GroupSelectionView;
                 if (groupSelectionView != null)
                 {
                     // Set the DataContext of the GroupSelectionView
@@ -99,33 +132,6 @@ namespace VRChatInstanceJoiner
                 LogToFile($"Error in Loaded event: {ex.Message}");
                 LogToFile($"Stack trace: {ex.StackTrace}");
             }
-        }
-        
-        /// <summary>
-        /// Finds a visual child of the specified type in the visual tree.
-        /// </summary>
-        /// <typeparam name="T">The type of the child to find.</typeparam>
-        /// <param name="parent">The parent element to search in.</param>
-        /// <returns>The first child of the specified type, or null if not found.</returns>
-        private T FindVisualChild<T>(DependencyObject parent) where T : DependencyObject
-        {
-            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(parent); i++)
-            {
-                var child = VisualTreeHelper.GetChild(parent, i);
-                
-                if (child is T typedChild)
-                {
-                    return typedChild;
-                }
-                
-                var result = FindVisualChild<T>(child);
-                if (result != null)
-                {
-                    return result;
-                }
-            }
-            
-            return null;
         }
         
         private void LogToFile(string message)

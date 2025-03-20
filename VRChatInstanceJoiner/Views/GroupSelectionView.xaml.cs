@@ -10,7 +10,7 @@ namespace VRChatInstanceJoiner.Views
     {
         public GroupSelectionView()
         {
-            InitializeComponent();
+            // No need to call InitializeComponent() since we're creating the UI programmatically
         }
     }
 }

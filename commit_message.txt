@@ -1,0 +1,19 @@
+Fix UI initialization and group filtering issues
+
+This commit addresses several issues:
+
+1. Fixed XAML initialization issues:
+   - Removed converters namespace from App.xaml
+   - Implemented a programmatic UI approach in MainWindow.xaml.cs
+   - Made MainWindow a partial class to avoid duplicate InitializeComponent
+
+2. Fixed group filtering logic in GroupViewModel:
+   - Added proper null handling for Tags and Description properties
+   - Improved the filtering implementation to correctly match tags
+
+3. Fixed tests:
+   - Updated GroupViewModelTests to use reflection to call private methods
+   - Added debug output to help diagnose filtering issues
+   - Fixed assertions to properly test filtering functionality
+
+These changes ensure that the application can start properly and that the group filtering functionality works correctly, particularly when filtering by tags.

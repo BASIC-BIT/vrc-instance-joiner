@@ -4,7 +4,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media;
 
-namespace VRChatInstanceJoiner.Converters
+namespace VRChatInstanceJoiner
 {
     /// <summary>
     /// Converts a boolean value to a Visibility value.

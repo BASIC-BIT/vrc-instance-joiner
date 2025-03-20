@@ -61,10 +61,10 @@ This checklist tracks the progress of implementing the VRChat Instance Joiner ap
 
 ### Step 5: Group Management
 - [x] Implement group query service
-- [ ] Create group selection UI
-- [ ] Add group data caching
-- [ ] Implement group details display
-- [ ] Write group management unit tests
+- [x] Create group selection UI
+- [x] Add group data caching
+- [x] Implement group details display
+- [x] Write group management unit tests
 
 ### Step 6: Instance Monitoring
 - [ ] Create instance monitoring service

@@ -2,7 +2,6 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:VRChatInstanceJoiner"
-             xmlns:converters="clr-namespace:VRChatInstanceJoiner.Converters"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
     <Application.Resources>
         <ResourceDictionary>
@@ -11,13 +10,13 @@
                 <materialDesign:BundledTheme BaseTheme="Light" PrimaryColor="DeepPurple" SecondaryColor="Lime" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesign2.Defaults.xaml" />
             </ResourceDictionary.MergedDictionaries>
-            
+
             <!-- Value Converters -->
-            <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
-            <converters:InverseBooleanToVisibilityConverter x:Key="InverseBooleanToVisibilityConverter" />
-            <converters:NullToBooleanConverter x:Key="NullToBooleanConverter" />
-            <converters:BooleanToJoinStatusConverter x:Key="BooleanToJoinStatusConverter" />
-            <converters:BooleanToErrorBrushConverter x:Key="BooleanToErrorBrushConverter" />
+            <local:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+            <local:InverseBooleanToVisibilityConverter x:Key="InverseBooleanToVisibilityConverter" />
+            <local:NullToBooleanConverter x:Key="NullToBooleanConverter" />
+            <local:BooleanToJoinStatusConverter x:Key="BooleanToJoinStatusConverter" />
+            <local:BooleanToErrorBrushConverter x:Key="BooleanToErrorBrushConverter" />
             
         </ResourceDictionary>
     </Application.Resources>
