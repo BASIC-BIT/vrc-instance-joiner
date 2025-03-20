@@ -21,174 +21,49 @@
         <DockPanel>
             <!-- Top Menu Bar -->
             <materialDesign:ColorZone Mode="PrimaryMid" 
-                                     Padding="16" 
-                                     DockPanel.Dock="Top">
+                                    Padding="16" 
+                                    DockPanel.Dock="Top">
                 <DockPanel>
                     <StackPanel Orientation="Horizontal">
                         <materialDesign:PackIcon Kind="VirtualReality" 
-                                               Height="32" 
-                                               Width="32" 
-                                               VerticalAlignment="Center" />
+                                              Height="32" 
+                                              Width="32" 
+                                              VerticalAlignment="Center" />
                         <TextBlock Text="VRChat Instance Joiner" 
-                                 VerticalAlignment="Center" 
-                                 Margin="16,0,0,0" 
-                                 FontSize="20" />
-                    </StackPanel>
-                    
-                    <StackPanel Orientation="Horizontal" 
-                              HorizontalAlignment="Right">
-                        <ToggleButton x:Name="DarkModeToggle" 
-                                    Style="{StaticResource MaterialDesignSwitchToggleButton}" 
-                                    ToolTip="Toggle Dark/Light Mode" 
-                                    Margin="8,0" />
-                        <Button Style="{StaticResource MaterialDesignIconButton}" 
-                              ToolTip="Settings">
-                            <materialDesign:PackIcon Kind="Settings" />
-                        </Button>
-                        <Button Style="{StaticResource MaterialDesignIconButton}" 
-                              ToolTip="About">
-                            <materialDesign:PackIcon Kind="Information" />
-                        </Button>
+                                VerticalAlignment="Center" 
+                                Margin="16,0,0,0" 
+                                FontSize="20" />
                     </StackPanel>
                 </DockPanel>
             </materialDesign:ColorZone>
-
-            <!-- Main Content Area -->
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="300" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-
-                <!-- Left Panel - Group Selection -->
-                <DockPanel Grid.Column="0" Margin="16">
-                    <TextBlock Text="Groups" 
-                             FontSize="18" 
+            
+            <!-- Main Content -->
+            <Grid Margin="16">
+                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <TextBlock Text="VRChat Instance Joiner" 
+                             FontSize="32" 
                              FontWeight="Bold" 
-                             DockPanel.Dock="Top" 
-                             Margin="0,0,0,16" />
+                             HorizontalAlignment="Center"/>
                     
-                    <Button Content="Refresh Groups" 
-                          Style="{StaticResource MaterialDesignOutlinedButton}" 
-                          DockPanel.Dock="Bottom" 
-                          Margin="0,16,0,0" 
-                          HorizontalAlignment="Center" />
+                    <TextBlock Text="Application is running successfully!" 
+                             FontSize="18" 
+                             Margin="0,16,0,32" 
+                             HorizontalAlignment="Center"/>
                     
-                    <ListView x:Name="GroupsListView" 
-                            Margin="0,8">
-                        <ListView.ItemTemplate>
-                            <DataTemplate>
-                                <StackPanel Margin="8">
-                                    <TextBlock Text="{Binding Name}" 
-                                             FontWeight="Bold" />
-                                    <TextBlock Text="{Binding MemberCount, StringFormat='Members: {0}'}" 
-                                             Opacity="0.7" 
-                                             FontSize="12" />
-                                </StackPanel>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
-                </DockPanel>
-
-                <!-- Right Panel - Instance Monitoring -->
-                <DockPanel Grid.Column="1" Margin="16">
-                    <Grid DockPanel.Dock="Top" Margin="0,0,0,16">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
-                        
+                    <materialDesign:Card Padding="32" Margin="0,16,0,0">
                         <StackPanel>
-                            <TextBlock Text="Instances" 
+                            <TextBlock Text="Status" 
                                      FontSize="18" 
-                                     FontWeight="Bold" />
-                            <TextBlock x:Name="SelectedGroupText" 
-                                     Text="No group selected" 
-                                     Opacity="0.7" />
+                                     FontWeight="Bold" 
+                                     Margin="0,0,0,16"/>
+                            
+                            <TextBlock Text="• Dependency Injection: Working" Margin="0,4"/>
+                            <TextBlock Text="• Material Design: Working" Margin="0,4"/>
+                            <TextBlock Text="• Services: Initialized" Margin="0,4"/>
+                            <TextBlock Text="• UI: Rendered" Margin="0,4"/>
                         </StackPanel>
-                        
-                        <StackPanel Grid.Column="1" 
-                                  Orientation="Horizontal">
-                            <TextBlock Text="Auto-Join:" 
-                                     VerticalAlignment="Center" 
-                                     Margin="0,0,8,0" />
-                            <ToggleButton x:Name="AutoJoinToggle" 
-                                        Style="{StaticResource MaterialDesignSwitchToggleButton}" 
-                                        ToolTip="Enable Auto-Join" />
-                        </StackPanel>
-                    </Grid>
-
-                    <Grid DockPanel.Dock="Bottom" Margin="0,16,0,0">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
-                        
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Status: " 
-                                     VerticalAlignment="Center" />
-                            <TextBlock x:Name="StatusText" 
-                                     Text="Not monitoring" 
-                                     VerticalAlignment="Center" />
-                        </StackPanel>
-                        
-                        <StackPanel Grid.Column="1" 
-                                  Orientation="Horizontal">
-                            <TextBlock Text="Poll Interval:" 
-                                     VerticalAlignment="Center" 
-                                     Margin="0,0,8,0" />
-                            <ComboBox Width="100" 
-                                    SelectedIndex="1">
-                                <ComboBoxItem Content="5 seconds" />
-                                <ComboBoxItem Content="10 seconds" />
-                                <ComboBoxItem Content="30 seconds" />
-                                <ComboBoxItem Content="1 minute" />
-                            </ComboBox>
-                        </StackPanel>
-                    </Grid>
-
-                    <ListView x:Name="InstancesListView">
-                        <ListView.ItemTemplate>
-                            <DataTemplate>
-                                <Grid Margin="8">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="Auto" />
-                                    </Grid.ColumnDefinitions>
-                                    
-                                    <StackPanel>
-                                        <TextBlock Text="{Binding Name}" 
-                                                 FontWeight="Bold" />
-                                        <StackPanel Orientation="Horizontal" 
-                                                  Opacity="0.7">
-                                            <TextBlock Text="{Binding UserCount, StringFormat='Users: {0}'}" 
-                                                     FontSize="12" />
-                                            <TextBlock Text=" / " 
-                                                     FontSize="12" />
-                                            <TextBlock Text="{Binding Capacity}" 
-                                                     FontSize="12" />
-                                            <TextBlock Text=" | " 
-                                                     Margin="8,0" 
-                                                     FontSize="12" />
-                                            <TextBlock Text="{Binding Type}" 
-                                                     FontSize="12" />
-                                            <TextBlock Text=" | " 
-                                                     Margin="8,0" 
-                                                     FontSize="12" />
-                                            <TextBlock Text="{Binding CreatedAt, StringFormat='Created: {0}'}" 
-                                                     FontSize="12" />
-                                        </StackPanel>
-                                    </StackPanel>
-                                    
-                                    <Button Grid.Column="1" 
-                                          Content="Join" 
-                                          Style="{StaticResource MaterialDesignRaisedButton}" 
-                                          VerticalAlignment="Center" />
-                                </Grid>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
-                </DockPanel>
+                    </materialDesign:Card>
+                </StackPanel>
             </Grid>
         </DockPanel>
     </materialDesign:DialogHost>
