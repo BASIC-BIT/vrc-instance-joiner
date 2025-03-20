@@ -84,15 +84,6 @@ namespace VRChatInstanceJoiner
             var dockPanel = new DockPanel();
             Content = dockPanel;
             
-            // Create a GroupSelectionView
-            var groupSelectionView = new GroupSelectionView
-            {
-                Name = "groupSelectionView",
-                Margin = new Thickness(16)
-            };
-            
-            // Add the GroupSelectionView to the DockPanel
-            dockPanel.Children.Add(groupSelectionView);
             
             LogToFile("UI components created programmatically");
         }
@@ -109,21 +100,21 @@ namespace VRChatInstanceJoiner
                 // Initialize the GroupViewModel
                 _groupViewModel = new GroupViewModel(_vrchatApiService, _dataStorageService, logger);
                 
-                // Find the GroupSelectionView in the content
-                var groupSelectionView = FindName("groupSelectionView") as GroupSelectionView;
-                if (groupSelectionView != null)
+                // Create a GroupSelectionView
+                var groupSelectionView = new GroupSelectionView
                 {
-                    // Set the DataContext of the GroupSelectionView
-                    groupSelectionView.DataContext = _groupViewModel;
-                    
-                    // Initialize the GroupViewModel
-                    _ = _groupViewModel.InitializeAsync();
-                    
-                    LogToFile("GroupViewModel initialized and bound to view");
-                }
-                else
+                    Margin = new Thickness(16),
+                    DataContext = _groupViewModel
+                };
+                
+                // Add the GroupSelectionView to the DockPanel
+                if (Content is DockPanel dockPanel)
                 {
-                    LogToFile("Error: GroupSelectionView not found in visual tree");
+                    dockPanel.Children.Add(groupSelectionView);
+                    LogToFile("GroupSelectionView added to DockPanel");
+                
+                // Initialize the GroupViewModel
+                _ = _groupViewModel.InitializeAsync();
                 }
             }
             catch (Exception ex)
