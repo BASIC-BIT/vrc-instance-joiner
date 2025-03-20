@@ -4,9 +4,192 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:VRChatInstanceJoiner"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="VRChat Instance Joiner" 
+        Height="600" 
+        Width="900"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}">
+    
+    <materialDesign:DialogHost Identifier="RootDialog">
+        <DockPanel>
+            <!-- Top Menu Bar -->
+            <materialDesign:ColorZone Mode="PrimaryMid" 
+                                     Padding="16" 
+                                     DockPanel.Dock="Top">
+                <DockPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="VirtualReality" 
+                                               Height="32" 
+                                               Width="32" 
+                                               VerticalAlignment="Center" />
+                        <TextBlock Text="VRChat Instance Joiner" 
+                                 VerticalAlignment="Center" 
+                                 Margin="16,0,0,0" 
+                                 FontSize="20" />
+                    </StackPanel>
+                    
+                    <StackPanel Orientation="Horizontal" 
+                              HorizontalAlignment="Right">
+                        <ToggleButton x:Name="DarkModeToggle" 
+                                    Style="{StaticResource MaterialDesignSwitchToggleButton}" 
+                                    ToolTip="Toggle Dark/Light Mode" 
+                                    Margin="8,0" />
+                        <Button Style="{StaticResource MaterialDesignIconButton}" 
+                              ToolTip="Settings">
+                            <materialDesign:PackIcon Kind="Settings" />
+                        </Button>
+                        <Button Style="{StaticResource MaterialDesignIconButton}" 
+                              ToolTip="About">
+                            <materialDesign:PackIcon Kind="Information" />
+                        </Button>
+                    </StackPanel>
+                </DockPanel>
+            </materialDesign:ColorZone>
 
-    </Grid>
+            <!-- Main Content Area -->
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="300" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <!-- Left Panel - Group Selection -->
+                <DockPanel Grid.Column="0" Margin="16">
+                    <TextBlock Text="Groups" 
+                             FontSize="18" 
+                             FontWeight="Bold" 
+                             DockPanel.Dock="Top" 
+                             Margin="0,0,0,16" />
+                    
+                    <Button Content="Refresh Groups" 
+                          Style="{StaticResource MaterialDesignOutlinedButton}" 
+                          DockPanel.Dock="Bottom" 
+                          Margin="0,16,0,0" 
+                          HorizontalAlignment="Center" />
+                    
+                    <ListView x:Name="GroupsListView" 
+                            Margin="0,8">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Margin="8">
+                                    <TextBlock Text="{Binding Name}" 
+                                             FontWeight="Bold" />
+                                    <TextBlock Text="{Binding MemberCount, StringFormat='Members: {0}'}" 
+                                             Opacity="0.7" 
+                                             FontSize="12" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </DockPanel>
+
+                <!-- Right Panel - Instance Monitoring -->
+                <DockPanel Grid.Column="1" Margin="16">
+                    <Grid DockPanel.Dock="Top" Margin="0,0,0,16">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        
+                        <StackPanel>
+                            <TextBlock Text="Instances" 
+                                     FontSize="18" 
+                                     FontWeight="Bold" />
+                            <TextBlock x:Name="SelectedGroupText" 
+                                     Text="No group selected" 
+                                     Opacity="0.7" />
+                        </StackPanel>
+                        
+                        <StackPanel Grid.Column="1" 
+                                  Orientation="Horizontal">
+                            <TextBlock Text="Auto-Join:" 
+                                     VerticalAlignment="Center" 
+                                     Margin="0,0,8,0" />
+                            <ToggleButton x:Name="AutoJoinToggle" 
+                                        Style="{StaticResource MaterialDesignSwitchToggleButton}" 
+                                        ToolTip="Enable Auto-Join" />
+                        </StackPanel>
+                    </Grid>
+
+                    <Grid DockPanel.Dock="Bottom" Margin="0,16,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Status: " 
+                                     VerticalAlignment="Center" />
+                            <TextBlock x:Name="StatusText" 
+                                     Text="Not monitoring" 
+                                     VerticalAlignment="Center" />
+                        </StackPanel>
+                        
+                        <StackPanel Grid.Column="1" 
+                                  Orientation="Horizontal">
+                            <TextBlock Text="Poll Interval:" 
+                                     VerticalAlignment="Center" 
+                                     Margin="0,0,8,0" />
+                            <ComboBox Width="100" 
+                                    SelectedIndex="1">
+                                <ComboBoxItem Content="5 seconds" />
+                                <ComboBoxItem Content="10 seconds" />
+                                <ComboBoxItem Content="30 seconds" />
+                                <ComboBoxItem Content="1 minute" />
+                            </ComboBox>
+                        </StackPanel>
+                    </Grid>
+
+                    <ListView x:Name="InstancesListView">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Margin="8">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding Name}" 
+                                                 FontWeight="Bold" />
+                                        <StackPanel Orientation="Horizontal" 
+                                                  Opacity="0.7">
+                                            <TextBlock Text="{Binding UserCount, StringFormat='Users: {0}'}" 
+                                                     FontSize="12" />
+                                            <TextBlock Text=" / " 
+                                                     FontSize="12" />
+                                            <TextBlock Text="{Binding Capacity}" 
+                                                     FontSize="12" />
+                                            <TextBlock Text=" | " 
+                                                     Margin="8,0" 
+                                                     FontSize="12" />
+                                            <TextBlock Text="{Binding Type}" 
+                                                     FontSize="12" />
+                                            <TextBlock Text=" | " 
+                                                     Margin="8,0" 
+                                                     FontSize="12" />
+                                            <TextBlock Text="{Binding CreatedAt, StringFormat='Created: {0}'}" 
+                                                     FontSize="12" />
+                                        </StackPanel>
+                                    </StackPanel>
+                                    
+                                    <Button Grid.Column="1" 
+                                          Content="Join" 
+                                          Style="{StaticResource MaterialDesignRaisedButton}" 
+                                          VerticalAlignment="Center" />
+                                </Grid>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </DockPanel>
+            </Grid>
+        </DockPanel>
+    </materialDesign:DialogHost>
 </Window>

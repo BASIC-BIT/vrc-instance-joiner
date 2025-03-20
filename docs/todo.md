@@ -17,7 +17,7 @@ This checklist tracks the progress of implementing the VRChat Instance Joiner ap
   - [x] Newtonsoft.Json
   - [x] Microsoft.Extensions.DependencyInjection
   - [x] Microsoft.Extensions.Logging
-- [ ] Create main application window skeleton
+- [x] Create main application window skeleton
 - [x] Set up test project
   - [x] Add xUnit as testing framework
   - [x] Add Moq, FluentAssertions, and WireMock.NET packages
@@ -84,8 +84,8 @@ This checklist tracks the progress of implementing the VRChat Instance Joiner ap
 ## Phase 4: UI Refinement
 
 ### Step 8: Material Design Implementation
-- [ ] Apply Material Design theme
-- [ ] Implement responsive layouts
+- [x] Apply Material Design theme
+- [x] Implement responsive layouts
 - [ ] Create custom controls as needed
 - [ ] Implement light/dark theme switching
 - [ ] Test UI responsiveness
