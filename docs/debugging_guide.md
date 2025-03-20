@@ -50,52 +50,21 @@ The application is unable to load the MaterialDesignThemes resources. This could
 - Incorrect resource path in the XAML
 
 **Solution:**
-1. **Simplify App.xaml**: Remove MaterialDesignThemes references and use basic WPF styles instead:
+1. **Use the recommended BundledTheme approach** in App.xaml:
    ```xml
-   <Application x:Class="VRChatInstanceJoiner.App"
-                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                xmlns:local="clr-namespace:VRChatInstanceJoiner">
-       <Application.Resources>
-           <ResourceDictionary>
-               <!-- Basic application styles -->
-               <Style x:Key="DefaultTextStyle" TargetType="TextBlock">
-                   <Setter Property="FontFamily" Value="Segoe UI" />
-                   <Setter Property="FontSize" Value="14" />
-               </Style>
-               
-               <Style x:Key="HeaderTextStyle" TargetType="TextBlock">
-                   <Setter Property="FontFamily" Value="Segoe UI" />
-                   <Setter Property="FontSize" Value="24" />
-                   <Setter Property="FontWeight" Value="Bold" />
-               </Style>
-               
-               <Style x:Key="DefaultButtonStyle" TargetType="Button">
-                   <Setter Property="Padding" Value="10,5" />
-                   <Setter Property="Margin" Value="5" />
-                   <Setter Property="Background" Value="#673AB7" />
-                   <Setter Property="Foreground" Value="White" />
-               </Style>
-           </ResourceDictionary>
-       </Application.Resources>
-   </Application>
+   <ResourceDictionary.MergedDictionaries>
+       <materialDesign:BundledTheme BaseTheme="Light" PrimaryColor="DeepPurple" SecondaryColor="Lime" />
+       <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesign2.Defaults.xaml" />
+   </ResourceDictionary.MergedDictionaries>
    ```
 
-2. If you need MaterialDesignThemes, ensure both packages are the same version:
+2. Ensure both MaterialDesignThemes and MaterialDesignColors packages are the same version:
    ```xml
    <PackageReference Include="MaterialDesignThemes" Version="5.2.1" />
    <PackageReference Include="MaterialDesignColors" Version="5.2.1" />
    ```
 
-3. If using MaterialDesignThemes, try a simpler theme approach:
-   ```xml
-   <ResourceDictionary.MergedDictionaries>
-       <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />
-       <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
-       <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.DeepPurple.xaml" />
-       <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Accent/MaterialDesignColor.Lime.xaml" />
-   </ResourceDictionary.MergedDictionaries>
-   ```
+3. If you're still having issues, check the MaterialDesignInXAML GitHub repository for the latest recommended setup: https://github.com/MaterialDesignInXAML/MaterialDesignInXamlToolkit
 
 ### 2. XAML Initialization Issues
 
@@ -204,27 +173,59 @@ public void ApplicationShouldStartWithoutCrashing()
 
 We successfully resolved the MaterialDesignThemes resource loading issue by:
 
-1. Simplifying the App.xaml file to use basic WPF styles instead of MaterialDesignThemes
+1. Using the recommended BundledTheme approach in App.xaml:
+   ```xml
+   <ResourceDictionary.MergedDictionaries>
+       <materialDesign:BundledTheme BaseTheme="Light" PrimaryColor="DeepPurple" SecondaryColor="Lime" />
+       <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesign2.Defaults.xaml" />
+   </ResourceDictionary.MergedDictionaries>
+   ```
+
 2. Ensuring the MaterialDesignColors package version matched the MaterialDesignThemes version
-3. Using a more direct approach to UI creation in the MainWindow class
 
 The logs now show the application starting up successfully:
 ```
-2025-03-20 15:17:55.731 - Application starting...
-2025-03-20 15:17:55.745 - Services registered
-2025-03-20 15:17:55.755 - Services configured successfully
-2025-03-20 15:17:55.782 - OnStartup called
-2025-03-20 15:17:55.942 - MainWindow created
-2025-03-20 15:17:58.000 - MainWindow.Show() called
+2025-03-20 15:22:11.693 - Application starting...
+2025-03-20 15:22:11.707 - Services registered
+2025-03-20 15:22:11.716 - Services configured successfully
+2025-03-20 15:22:11.967 - OnStartup called
+2025-03-20 15:22:12.087 - MainWindow created
+2025-03-20 15:22:14.063 - MainWindow.Show() called
 ```
 
 And the MainWindow is properly initialized:
 ```
-2025-03-20 15:17:55.816 - MainWindow constructor called
-2025-03-20 15:17:55.816 - Services initialized
-2025-03-20 15:17:55.817 - Creating UI
-2025-03-20 15:17:55.941 - UI elements created
-2025-03-20 15:17:55.941 - UI created
-2025-03-20 15:17:55.942 - Event handlers set up
-2025-03-20 15:17:56.131 - MainWindow_Loaded event fired
-2025-03-20 15:17:57.996 - Welcome message displayed
+2025-03-20 15:22:11.986 - MainWindow constructor called
+2025-03-20 15:22:11.986 - Services initialized
+2025-03-20 15:22:11.987 - Creating UI
+2025-03-20 15:22:12.086 - UI elements created
+2025-03-20 15:22:12.086 - UI created
+2025-03-20 15:22:12.087 - Event handlers set up
+2025-03-20 15:22:12.267 - MainWindow_Loaded event fired
+2025-03-20 15:22:14.059 - Welcome message displayed
+```
+
+## MaterialDesignThemes Best Practices
+
+Based on the official MaterialDesignInXAML GitHub repository, here are some best practices for using MaterialDesignThemes in WPF applications:
+
+1. **Use the BundledTheme approach** for simpler theme setup:
+   ```xml
+   <materialDesign:BundledTheme BaseTheme="Light" PrimaryColor="DeepPurple" SecondaryColor="Lime" />
+   ```
+
+2. **Use MaterialDesign2.Defaults.xaml** for Material Design 2 styling:
+   ```xml
+   <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesign2.Defaults.xaml" />
+   ```
+
+3. **Apply the MaterialDesignWindow style** to your main window:
+   ```xml
+   <Window Style="{StaticResource MaterialDesignWindow}" ... >
+   ```
+
+4. **Keep MaterialDesignThemes and MaterialDesignColors packages in sync** to avoid compatibility issues
+
+5. **Use the built-in controls and styles** provided by the library rather than creating custom ones
+
+6. **Refer to the demo applications** in the GitHub repository for examples of how to use the various controls and features
