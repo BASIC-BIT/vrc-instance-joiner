@@ -1,0 +1,192 @@
+<UserControl x:Class="VRChatInstanceJoiner.Views.GroupSelectionView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:VRChatInstanceJoiner.Views"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        
+        <!-- Header -->
+        <TextBlock Grid.Row="0" 
+                   Text="Group Selection" 
+                   Style="{StaticResource MaterialDesignHeadline5TextBlock}" 
+                   Margin="0,0,0,16"/>
+        
+        <!-- Search Box -->
+        <Grid Grid.Row="1" Margin="0,0,0,16">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            
+            <TextBox Grid.Column="0"
+                     Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
+                     materialDesign:HintAssist.Hint="Search groups..."
+                     Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                     Margin="0,0,8,0"/>
+            
+            <Button Grid.Column="1"
+                    Command="{Binding RefreshGroupsCommand}"
+                    Style="{StaticResource MaterialDesignOutlinedButton}"
+                    ToolTip="Refresh Groups">
+                <materialDesign:PackIcon Kind="Refresh" />
+            </Button>
+        </Grid>
+        
+        <!-- Group List -->
+        <Border Grid.Row="2" 
+                BorderThickness="1" 
+                BorderBrush="{DynamicResource MaterialDesignDivider}" 
+                Margin="0,0,0,16">
+            <Grid>
+                <!-- Loading Indicator -->
+                <materialDesign:Card Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Padding="16">
+                    <StackPanel Orientation="Horizontal">
+                        <ProgressBar Style="{StaticResource MaterialDesignCircularProgressBar}"
+                                    Value="0"
+                                    IsIndeterminate="True"
+                                    Margin="0,0,8,0"/>
+                        <TextBlock Text="Loading groups..." 
+                                VerticalAlignment="Center"/>
+                    </StackPanel>
+                </materialDesign:Card>
+                
+                <!-- Empty State -->
+                <materialDesign:Card Visibility="{Binding HasGroups, Converter={StaticResource InverseBooleanToVisibilityConverter}}"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Padding="16">
+                    <StackPanel>
+                        <materialDesign:PackIcon Kind="GroupOff"
+                                                Width="48"
+                                                Height="48"
+                                                HorizontalAlignment="Center"
+                                                Margin="0,0,0,8"/>
+                        <TextBlock Text="No groups found"
+                                TextAlignment="Center"
+                                Style="{StaticResource MaterialDesignHeadline6TextBlock}"/>
+                        <TextBlock Text="You don't have any VRChat groups or they couldn't be loaded."
+                                TextAlignment="Center"
+                                TextWrapping="Wrap"
+                                Margin="0,8,0,8"/>
+                        <Button Command="{Binding RefreshGroupsCommand}"
+                                Style="{StaticResource MaterialDesignOutlinedButton}"
+                                HorizontalAlignment="Center"
+                                Margin="0,8,0,0">
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="Refresh" Margin="0,0,8,0"/>
+                                <TextBlock Text="Refresh"/>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                </materialDesign:Card>
+                
+                <!-- Group List -->
+                <ListView ItemsSource="{Binding FilteredGroups}"
+                          SelectedItem="{Binding SelectedGroup}"
+                          Visibility="{Binding HasGroups, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Margin="8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                
+                                <!-- Group Icon -->
+                                <Border Grid.Column="0" 
+                                        Width="48" 
+                                        Height="48" 
+                                        CornerRadius="24" 
+                                        Background="{DynamicResource MaterialDesignPaper}"
+                                        BorderBrush="{DynamicResource MaterialDesignDivider}"
+                                        BorderThickness="1"
+                                        Margin="0,0,16,0">
+                                    <Image Source="{Binding IconUrl}" 
+                                           Width="48" 
+                                           Height="48"
+                                           Stretch="UniformToFill"/>
+                                </Border>
+                                
+                                <!-- Group Info -->
+                                <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                    <TextBlock Text="{Binding Name}" 
+                                               Style="{StaticResource MaterialDesignSubtitle1TextBlock}"/>
+                                    <TextBlock Text="{Binding Description}" 
+                                               TextTrimming="CharacterEllipsis"
+                                               TextWrapping="NoWrap"
+                                               Opacity="0.6"/>
+                                    
+                                    <!-- Tags -->
+                                    <ItemsControl ItemsSource="{Binding Tags}" Margin="0,4,0,0">
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <WrapPanel Orientation="Horizontal"/>
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <Border Background="{DynamicResource MaterialDesignChipBackground}"
+                                                        CornerRadius="4"
+                                                        Padding="4,2"
+                                                        Margin="0,0,4,4">
+                                                    <TextBlock Text="{Binding}" 
+                                                               FontSize="10"/>
+                                                </Border>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </StackPanel>
+                                
+                                <!-- Member Count -->
+                                <StackPanel Grid.Column="2" 
+                                            VerticalAlignment="Center"
+                                            HorizontalAlignment="Right">
+                                    <TextBlock Text="{Binding MemberCount, StringFormat='{}{0} members'}"
+                                               HorizontalAlignment="Right"/>
+                                    <TextBlock Text="{Binding IsJoinRequestEnabled, Converter={StaticResource BooleanToJoinStatusConverter}}"
+                                               HorizontalAlignment="Right"
+                                               Opacity="0.6"/>
+                                </StackPanel>
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Grid>
+        </Border>
+        
+        <!-- Status Bar -->
+        <Grid Grid.Row="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            
+            <TextBlock Grid.Column="0" 
+                       Text="{Binding StatusMessage}"
+                       VerticalAlignment="Center"
+                       Foreground="{Binding HasError, Converter={StaticResource BooleanToErrorBrushConverter}}"/>
+            
+            <Button Grid.Column="1"
+                    Command="{Binding SelectGroupCommand}"
+                    CommandParameter="{Binding SelectedGroup}"
+                    Content="Select Group"
+                    Style="{StaticResource MaterialDesignRaisedButton}"
+                    IsEnabled="{Binding SelectedGroup, Converter={StaticResource NullToBooleanConverter}}"/>
+        </Grid>
+    </Grid>
+</UserControl>

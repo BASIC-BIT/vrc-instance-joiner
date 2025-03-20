@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:VRChatInstanceJoiner"
+        xmlns:views="clr-namespace:VRChatInstanceJoiner.Views"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
         Title="VRChat Instance Joiner" 
@@ -20,7 +21,7 @@
     <materialDesign:DialogHost Identifier="RootDialog">
         <DockPanel>
             <!-- Top Menu Bar -->
-            <materialDesign:ColorZone Mode="PrimaryMid" 
+            <materialDesign:ColorZone Mode="PrimaryDark" 
                                     Padding="16" 
                                     DockPanel.Dock="Top">
                 <DockPanel>
@@ -33,38 +34,35 @@
                                 VerticalAlignment="Center" 
                                 Margin="16,0,0,0" 
                                 FontSize="20" />
+                        
+                        <!-- Authentication Status -->
+                        <Border Background="#22FFFFFF" 
+                               CornerRadius="4" 
+                               Padding="8,4" 
+                               Margin="16,0,0,0"
+                               Visibility="{Binding IsAuthenticated, Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <TextBlock Text="Authenticated" 
+                                       VerticalAlignment="Center" 
+                                       FontSize="12" />
+                        </Border>
+                    </StackPanel>
+                    
+                    <!-- Right-aligned buttons -->
+                    <StackPanel Orientation="Horizontal" 
+                                HorizontalAlignment="Right" 
+                                DockPanel.Dock="Right">
+                        <Button Style="{StaticResource MaterialDesignFlatButton}" 
+                                Content="Settings" 
+                                Foreground="White" />
+                        <Button Style="{StaticResource MaterialDesignFlatButton}" 
+                                Content="Login" 
+                                Foreground="White" />
                     </StackPanel>
                 </DockPanel>
             </materialDesign:ColorZone>
             
-            <!-- Main Content -->
-            <Grid Margin="16">
-                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                    <TextBlock Text="VRChat Instance Joiner" 
-                             FontSize="32" 
-                             FontWeight="Bold" 
-                             HorizontalAlignment="Center"/>
-                    
-                    <TextBlock Text="Application is running successfully!" 
-                             FontSize="18" 
-                             Margin="0,16,0,32" 
-                             HorizontalAlignment="Center"/>
-                    
-                    <materialDesign:Card Padding="32" Margin="0,16,0,0">
-                        <StackPanel>
-                            <TextBlock Text="Status" 
-                                     FontSize="18" 
-                                     FontWeight="Bold" 
-                                     Margin="0,0,0,16"/>
-                            
-                            <TextBlock Text="• Dependency Injection: Working" Margin="0,4"/>
-                            <TextBlock Text="• Material Design: Working" Margin="0,4"/>
-                            <TextBlock Text="• Services: Initialized" Margin="0,4"/>
-                            <TextBlock Text="• UI: Rendered" Margin="0,4"/>
-                        </StackPanel>
-                    </materialDesign:Card>
-                </StackPanel>
-            </Grid>
+            <!-- Main Content Area -->
+            <views:GroupSelectionView Margin="16" />
         </DockPanel>
     </materialDesign:DialogHost>
 </Window>
