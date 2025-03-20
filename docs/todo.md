@@ -5,61 +5,61 @@ This checklist tracks the progress of implementing the VRChat Instance Joiner ap
 ## Phase 1: Project Setup and Foundation
 
 ### Step 1: Project Initialization
-- [ ] Create new WPF application (.NET 7/8)
-- [ ] Set up project folder structure
-  - [ ] Models
-  - [ ] ViewModels
-  - [ ] Views
-  - [ ] Services
-- [ ] Add NuGet packages:
-  - [ ] MaterialDesignThemes
-  - [ ] VRChat.API (C# SDK)
-  - [ ] Newtonsoft.Json
-  - [ ] Microsoft.Extensions.DependencyInjection
-  - [ ] Microsoft.Extensions.Logging
+- [x] Create new WPF application (.NET 7/8)
+- [x] Set up project folder structure
+  - [x] Models
+  - [x] ViewModels
+  - [x] Views
+  - [x] Services
+- [x] Add NuGet packages:
+  - [x] MaterialDesignThemes
+  - [x] VRChat.API (C# SDK)
+  - [x] Newtonsoft.Json
+  - [x] Microsoft.Extensions.DependencyInjection
+  - [x] Microsoft.Extensions.Logging
 - [ ] Create main application window skeleton
-- [ ] Set up test project
-  - [ ] Add xUnit as testing framework
-  - [ ] Add Moq, FluentAssertions, and WireMock.NET packages
-  - [ ] Set up test project for dependency injection
-  - [ ] Create first basic test with proper AAA pattern
+- [x] Set up test project
+  - [x] Add xUnit as testing framework
+  - [x] Add Moq, FluentAssertions, and WireMock.NET packages
+  - [x] Set up test project for dependency injection
+  - [x] Create first basic test with proper AAA pattern
 
 ### Step 2: Data Model Implementation
-- [ ] Implement AppSettings class
-- [ ] Create VRChatGroup model
-- [ ] Create VRChatInstance model
-- [ ] Define required enums
-  - [ ] InstanceType
-  - [ ] InstanceSelectionAlgorithm
+- [x] Implement AppSettings class
+- [x] Create VRChatGroup model
+- [x] Create VRChatInstance model
+- [x] Define required enums
+  - [x] InstanceType
+  - [x] InstanceSelectionAlgorithm
 - [ ] Implement API communication models
-- [ ] Create data storage service
-  - [ ] Interface definition
-  - [ ] Implementation
-- [ ] Write model unit tests
+- [x] Create data storage service
+  - [x] Interface definition
+  - [x] Implementation
+- [x] Write model unit tests
 
 ## Phase 2: API Integration
 
 ### Step 3: VRChat API Service
-- [ ] Create IVRChatApiService interface
-- [ ] Implement API wrapper using VRChat C# SDK
-- [ ] Add error handling
-- [ ] Implement rate limiting logic
-- [ ] Create authentication status method
-- [ ] Write API service unit tests
+- [x] Create IVRChatApiService interface
+- [x] Implement API wrapper using VRChat C# SDK
+- [x] Add error handling
+- [x] Implement rate limiting logic
+- [x] Create authentication status method
+- [x] Write API service unit tests
 
 ### Step 4: Authentication Implementation
 - [ ] Create login view
 - [ ] Implement login view model
-- [ ] Build credential handling
-- [ ] Implement 2FA verification interface
-- [ ] Create DPAPI secure token storage
-- [ ] Implement authentication service
-- [ ] Write authentication unit tests
+- [x] Build credential handling
+- [x] Implement 2FA verification interface
+- [x] Create DPAPI secure token storage
+- [x] Implement authentication service
+- [x] Write authentication unit tests
 
 ## Phase 3: Core Functionality
 
 ### Step 5: Group Management
-- [ ] Implement group query service
+- [x] Implement group query service
 - [ ] Create group selection UI
 - [ ] Add group data caching
 - [ ] Implement group details display
@@ -74,7 +74,7 @@ This checklist tracks the progress of implementing the VRChat Instance Joiner ap
 - [ ] Write instance monitoring unit tests
 
 ### Step 7: Instance Joining
-- [ ] Implement instance joining functionality
+- [x] Implement instance joining functionality
 - [ ] Create instance selection algorithm(s)
 - [ ] Build manual join capability
 - [ ] Implement auto-join functionality
@@ -92,7 +92,7 @@ This checklist tracks the progress of implementing the VRChat Instance Joiner ap
 
 ### Step 9: Settings and Preferences
 - [ ] Create settings view
-- [ ] Implement preference persistence
+- [x] Implement preference persistence
 - [ ] Build UI for configuring:
   - [ ] Poll interval
   - [ ] Notification preferences
