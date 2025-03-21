@@ -27,6 +27,9 @@ namespace VRChatInstanceJoiner
         {
             try
             {
+                // Call InitializeComponent to load and connect the XAML UI
+                InitializeComponent();
+                
                 // Set up logging
                 _logFilePath = Path.Combine(
                     Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
@@ -43,9 +46,6 @@ namespace VRChatInstanceJoiner
                 _vrchatApiService = vrchatApiService;
                 
                 LogToFile("Services initialized");
-                
-                // Create UI programmatically
-                CreateUI();
                 
                 // Set DataContext for binding
                 DataContext = this;
@@ -64,30 +64,6 @@ namespace VRChatInstanceJoiner
             }
         }
 
-        private void CreateUI()
-        {
-            // Set window properties
-            Title = "VRChat Instance Joiner";
-            Width = 900;
-            Height = 600;
-            
-            // Set Material Design styles
-            System.Windows.Documents.TextElement.SetForeground(this, (Brush)Application.Current.Resources["MaterialDesignBody"]);
-            System.Windows.Documents.TextElement.SetFontWeight(this, FontWeights.Regular);
-            System.Windows.Documents.TextElement.SetFontSize(this, 13);
-            // Skip TextOptions settings as they're not critical
-            // and are causing reference issues
-            Background = (Brush)Application.Current.Resources["MaterialDesignPaper"];
-            FontFamily = (FontFamily)Application.Current.Resources["MaterialDesignFont"];
-            
-            // Create a DockPanel as the main container
-            var dockPanel = new DockPanel();
-            Content = dockPanel;
-            
-            
-            LogToFile("UI components created programmatically");
-        }
-
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             try
@@ -101,21 +77,31 @@ namespace VRChatInstanceJoiner
                 _groupViewModel = new GroupViewModel(_vrchatApiService, _dataStorageService, logger);
                 
                 // Create a GroupSelectionView
-                var groupSelectionView = new GroupSelectionView
-                {
-                    Margin = new Thickness(16),
-                    DataContext = _groupViewModel
-                };
+                var groupSelectionView = new GroupSelectionView();
+                groupSelectionView.Margin = new Thickness(16);
+                groupSelectionView.DataContext = _groupViewModel;
                 
-                // Add the GroupSelectionView to the DockPanel
-                if (Content is DockPanel dockPanel)
+                // Add the GroupSelectionView to the main window
+                // Look for a container in XAML, or fallback to Content
+                var mainContent = Content as Panel;
+                if (mainContent == null)
                 {
-                    dockPanel.Children.Add(groupSelectionView);
-                    LogToFile("GroupSelectionView added to DockPanel");
+                    // Create a container if none exists in XAML
+                    var dockPanel = new DockPanel();
+                    Content = dockPanel;
+                    mainContent = dockPanel;
+                    LogToFile("Created new DockPanel as container");
+                }
+                
+                // Add the view to whatever container we have
+                if (mainContent is Panel panel)
+                {
+                    panel.Children.Add(groupSelectionView);
+                    LogToFile("GroupSelectionView added to panel");
+                }
                 
                 // Initialize the GroupViewModel
                 _ = _groupViewModel.InitializeAsync();
-                }
             }
             catch (Exception ex)
             {

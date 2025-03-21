@@ -16,5 +16,8 @@
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}">
     
-    <!-- The content will be created programmatically in the code-behind -->
+    <!-- Main content container -->
+    <DockPanel x:Name="MainContent" LastChildFill="True">
+        <!-- Child views will be added here from code-behind -->
+    </DockPanel>
 </Window>
