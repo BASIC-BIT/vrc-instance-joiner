@@ -8,9 +8,9 @@ namespace VRChatInstanceJoiner
         [STAThread]
         public static void Main(string[] args)
         {
-            var application = new Application();
-            application.StartupUri = new Uri("MainWindow.xaml", UriKind.Relative);
-            application.Run();
+            // Use the App class defined in App.xaml.cs
+            var app = new App();
+            app.Run();
         }
     }
 }

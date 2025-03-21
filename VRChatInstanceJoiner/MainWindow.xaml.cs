@@ -76,29 +76,14 @@ namespace VRChatInstanceJoiner
                 // Initialize the GroupViewModel
                 _groupViewModel = new GroupViewModel(_vrchatApiService, _dataStorageService, logger);
                 
-                // Create a GroupSelectionView
+                // Create and configure the GroupSelectionView
                 var groupSelectionView = new GroupSelectionView();
                 groupSelectionView.Margin = new Thickness(16);
                 groupSelectionView.DataContext = _groupViewModel;
                 
-                // Add the GroupSelectionView to the main window
-                // Look for a container in XAML, or fallback to Content
-                var mainContent = Content as Panel;
-                if (mainContent == null)
-                {
-                    // Create a container if none exists in XAML
-                    var dockPanel = new DockPanel();
-                    Content = dockPanel;
-                    mainContent = dockPanel;
-                    LogToFile("Created new DockPanel as container");
-                }
-                
-                // Add the view to whatever container we have
-                if (mainContent is Panel panel)
-                {
-                    panel.Children.Add(groupSelectionView);
-                    LogToFile("GroupSelectionView added to panel");
-                }
+                // Add the view to the MainContent panel defined in XAML
+                MainContent.Children.Add(groupSelectionView);
+                LogToFile("GroupSelectionView added to MainContent panel");
                 
                 // Initialize the GroupViewModel
                 _ = _groupViewModel.InitializeAsync();

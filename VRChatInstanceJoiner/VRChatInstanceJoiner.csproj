@@ -31,13 +31,13 @@
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
-  
+
   <ItemGroup>
     <Page Include="**\*.xaml" Exclude="App.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Compile Include="**\*.xaml.cs" DependentUpon="%(Filename).xaml" />
+    <Compile Include="**\*.xaml.cs" DependentUpon="%(Filename).xaml" Exclude="App.xaml.cs" />
     <Compile Include="**\*.cs" Exclude="**\*.xaml.cs" />
   </ItemGroup>
 
